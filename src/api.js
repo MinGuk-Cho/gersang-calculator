@@ -1,3 +1,4 @@
+const API_BASE = import.meta.env.VITE_API_BASE_URL || "";
 export async function fetchMasterData() {
   const response = await fetch("/master_data.json", {
     method: "GET",
@@ -12,7 +13,7 @@ export async function fetchMasterData() {
 }
 
 export async function fetchAppState() {
-  const response = await fetch("/api/state", {
+  const response = await fetch(`${API_BASE}/api/state`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -61,7 +62,7 @@ export async function refreshPrices({
   craftName,
   materials,
 }) {
-  const response = await fetch("/api/prices/refresh", {
+  const response = await fetch(`${API_BASE}/api/prices/refresh`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
