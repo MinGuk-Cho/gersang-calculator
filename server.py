@@ -21,7 +21,11 @@ app = FastAPI(title="Gersang Helper API")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173", "https://gersang-calculator.vercel.app"],
+    allow_origins=[
+        "http://localhost:5173",
+        "https://gersang-calculator-git-main-min-guk-chos-projects.vercel.app",
+        "https://gersang-calculator.vercel.app",
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
