@@ -46,31 +46,20 @@ class PriceRefreshRequest(BaseModel):
     materials: List[MaterialRow]
 
 
-def calc_material_purchase(offers: List[tuple], need_qty: int):
-    """
-    offers: [(price, qty), ...]
-    return:
-      {
-        "filled_qty": int,
-        "total_cost": int,
-        "unit_price": int | None,   # 평균단가(총합/채운수량)
-        "lowest_price": int | None,
-        "lack_qty": int,
-        "is_lack": bool,
-      }
-    """
-    need_qty = int(need_qty or 0)
-    if need_qty <= 0:
+def calc_material_purchase(offers, need_qty: int):
+    need_qty = _to_int(need_qty)
+    if need_qty is None or need_qty <= 0:
         return {
             "filled_qty": 0,
             "total_cost": 0,
+            "filled_total_cost": 0,
             "unit_price": None,
             "lowest_price": None,
             "lack_qty": 0,
             "is_lack": False,
         }
 
-    total_cost = 0
+    filled_total_cost = 0
     filled = 0
     lowest_price = offers[0][0] if offers else None
 
@@ -80,17 +69,21 @@ def calc_material_purchase(offers: List[tuple], need_qty: int):
         take = min(int(qty), need_qty - filled)
         if take <= 0:
             continue
-        total_cost += int(price) * int(take)
+        filled_total_cost += int(price) * int(take)
         filled += int(take)
 
     lack_qty = max(0, need_qty - filled)
     is_lack = lack_qty > 0
-    unit_price = int(round(total_cost / filled)) if filled > 0 else None
+    unit_price = int(round(filled_total_cost / filled)) if filled > 0 else None
+
+    # ✅ 부족해도 "필요 수량 기준 추정 합계"로 표시
+    display_total_cost = int(unit_price * need_qty) if isinstance(unit_price, int) else 0
 
     return {
         "filled_qty": filled,
-        "total_cost": total_cost,
-        "unit_price": unit_price,
+        "total_cost": display_total_cost,      # 화면/부모합계 계산용
+        "filled_total_cost": filled_total_cost, # 실제 채운 수량 총액
+        "unit_price": unit_price,              # 가중 평균 단가
         "lowest_price": lowest_price,
         "lack_qty": lack_qty,
         "is_lack": is_lack,
