@@ -113,10 +113,19 @@ def refresh_prices(req: PriceRefreshRequest):
             "name": mat.name,
             "used_name": used_name,
             "need_qty": mat.need_qty,
+        
+            # ✅ 평균 단가
             "unit_price": info["unit_price"],
             "unit_price_text": fmt_won(info["unit_price"]) if isinstance(info["unit_price"], int) else "-",
+        
+            # ✅ 최저가도 같이 텍스트로 내려주기
+            "lowest_price": info["lowest_price"],
+            "lowest_price_text": fmt_won(info["lowest_price"]) if isinstance(info["lowest_price"], int) else "-",
+        
+            # ✅ 합계는 필요 수량 기준 추정 합계
             "sum": info["total_cost"],
             "sum_text": fmt_won(info["total_cost"]) if info["total_cost"] > 0 else "-",
+        
             "note": note,
             "lack": info["is_lack"],
             "lack_qty": info["lack_qty"],
