@@ -47,7 +47,7 @@ class PriceRefreshRequest(BaseModel):
 
 
 def calc_material_purchase(offers, need_qty: int):
-    need_qty = _to_int(need_qty)
+    need_qty = int(need_qty) if need_qty is not None else 0
     if need_qty is None or need_qty <= 0:
         return {
             "filled_qty": 0,
