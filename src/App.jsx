@@ -2293,7 +2293,7 @@ const TechTable = memo(function TechTable({
                     <input
                       type="text"
                       className="qty-input price-input"
-                      value={child.inputUnitValue ?? ""}
+                      value={child.inputUnitValue ?? child.unit ?? ""}
                       onChange={(e) => {
                         const raw = e.target.value;
                         const digits = raw.replace(/[^\d]/g, "");
@@ -2335,7 +2335,7 @@ const TechTable = memo(function TechTable({
                     />
                   </td>
                   <td>{child.sum}</td>
-                  <td></td>
+                  <td>{child.avgPrice ?? "-"}</td>
                   <td className="note-cell">{child.note}</td>
                 </tr>
               ))}
