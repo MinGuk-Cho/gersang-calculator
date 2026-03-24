@@ -544,7 +544,13 @@ export default function App() {
 			  need: row.children?.[idx]?.need ?? mat.name ?? "",
 			  needQty: row.children?.[idx]?.needQty ?? mat.need_qty ?? "",
 			  baseNeedQty: row.children?.[idx]?.baseNeedQty ?? mat.need_qty ?? "",
-			  unit: mat.unit_price_text ?? "-",
+			
+			  // ✅ 개당 = 최저가
+			  unit: mat.lowest_price_text ?? "-",
+			
+			  // ✅ 평균가 = 필요한 수량 기준 가중 평균 단가
+			  avgPrice: mat.unit_price_text ?? "-",
+			
 			  sum: mat.sum_text ?? "-",
 			  note: mat.note ?? "",
 			  lack: !!mat.lack,
