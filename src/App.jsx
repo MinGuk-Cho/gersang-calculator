@@ -2265,15 +2265,15 @@ const TechTable = memo(function TechTable({
 					}}
 				  />
 				</td>
-                <td>{row.cost}</td>
-                <td>{row.unitPrice}</td>
-                <td></td>
-                <td>{row.avgPrice}</td>
+				<td>{row.cost}</td>
+				<td>{row.unitPrice}</td>
+				<td>{row.avgPrice}</td>
+				<td>{row.marketUnitPrice ?? "-"}</td>
 				<td className="note-cell">
 				  {buildParentNote(row, {
-					directCraftMode,
-					techUnitOverrides,
-					facilityUnitOverrides,
+				    directCraftMode,
+				    techUnitOverrides,
+				    facilityUnitOverrides,
 				  })}
 				</td>
               </tr>
