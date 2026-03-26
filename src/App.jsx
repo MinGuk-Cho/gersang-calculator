@@ -1358,17 +1358,18 @@ function parseWonToNumber(value) {
 }
 
 function getTechParentAvgPrice(row) {
-  if (!row) return "-";
+  if (!row || !Array.isArray(row.children)) return "-";
 
-  const childrenAvgTotal = Array.isArray(row.children)
-    ? row.children.reduce((acc, child) => {
-        return acc + parseWonToNumber(child.avgPrice);
-      }, 0)
-    : 0;
+  const childrenTotal = row.children.reduce((acc, child) => {
+    const avg = parseWonToNumber(child.avgPrice);
+    const qty = Number(child.needQty) || 0;
+
+    return acc + avg * qty;
+  }, 0);
 
   const cost = parseWonToNumber(row.cost);
 
-  const total = childrenAvgTotal + cost;
+  const total = childrenTotal + cost;
 
   return total > 0 ? total.toLocaleString() : "-";
 }
