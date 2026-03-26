@@ -1357,6 +1357,22 @@ function parseWonToNumber(value) {
   return Number(String(value).replace(/,/g, "")) || 0;
 }
 
+function getTechParentAvgPrice(row) {
+  if (!row) return "-";
+
+  const childrenAvgTotal = Array.isArray(row.children)
+    ? row.children.reduce((acc, child) => {
+        return acc + parseWonToNumber(child.avgPrice);
+      }, 0)
+    : 0;
+
+  const cost = parseWonToNumber(row.cost);
+
+  const total = childrenAvgTotal + cost;
+
+  return total > 0 ? total.toLocaleString() : "-";
+}
+
 function formatWonText(value) {
   const num = Number(value) || 0;
   return num > 0 ? num.toLocaleString() : "-";
@@ -2268,7 +2284,7 @@ const TechTable = memo(function TechTable({
 				<td>{row.cost}</td>
 				<td>{row.unitPrice}</td>
 				<td>{row.avgPrice}</td>
-				<td>{row.marketUnitPrice ?? "-"}</td>
+				<td>{getTechParentAvgPrice(row)}</td>
 				<td className="note-cell">
 				  {buildParentNote(row, {
 				    directCraftMode,
