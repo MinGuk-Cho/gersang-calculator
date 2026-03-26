@@ -32,20 +32,25 @@
 
 ---
 
-## 🛠 기술 스택
+## 📌 핵심 로직
 
-### Frontend
-- React (Vite)
-- JavaScript (ES6+)
+### 평균가 계산
+- 시장 매물 (가격, 수량)을 기반으로
+- 필요한 수량만큼 **가중 평균 계산**
 
-### Backend
-- FastAPI (Python)
-- Requests
+### 제작 비용 계산
 
-### Deployment
-- Vercel (Frontend)
-- Render (Backend)
+### 이익 계산
 
 ---
 
-## ⚙️ 동작 구조
+## ⚠️ 참고 사항
+
+- 시장 매물이 부족할 경우:
+  - 부족 수량 표시
+  - 평균 단가 기반 추정값으로 계산
+
+- 서버 최초 요청 시:
+  - Render 특성상 약간의 지연 발생 가능
+
+---
